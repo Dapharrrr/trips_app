@@ -49,12 +49,12 @@ class TripsTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->hasMany('Users', [
-            'foreignKey' => 'trip_id',
+            'foreignKey' => 'trip_id'
         ]);
         $this->belongsToMany('Cities', [
             'foreignKey' => 'trip_id',
             'targetForeignKey' => 'city_id',
-            'joinTable' => 'cities_trips',
+            'joinTable' => 'trips_cities',
         ]);
         
     }

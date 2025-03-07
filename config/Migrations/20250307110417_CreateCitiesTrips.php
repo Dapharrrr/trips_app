@@ -14,7 +14,7 @@ class CreateCitiesTrips extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('cities_trips');
+        $table = $this->table('trips_cities');
         $table->addColumn('trip_id', 'integer', [
             'default' => null,
             'limit' => 11,

@@ -40,7 +40,7 @@ class CitiesTripsTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('cities_trips');
+        $this->setTable('trips_cities');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 

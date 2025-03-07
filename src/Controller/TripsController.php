@@ -32,7 +32,17 @@ class TripsController extends AppController
      */
     public function view($id = null)
     {
-        $trip = $this->Trips->get($id, contain: ['Cities', 'Users']);
+        $trip = $this->Trips->get($id, [
+            'contain' => [
+                'Users' => function ($q) {
+                    return $q->select(['id', 'username', 'created', 'modified', 'trip_id']);
+                },
+                'Cities' => function ($q) {
+                    return $q->select(['id', 'name', 'country', 'created', 'modified']);
+                }
+            ]
+        ]);
+        
         $this->set(compact('trip'));
     }
 
@@ -42,27 +52,41 @@ class TripsController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add()
-{
-    $trip = $this->Trips->newEmptyEntity();
-    if ($this->request->is('post')) {
-        $trip = $this->Trips->patchEntity($trip, $this->request->getData(), [
-            'associated' => ['Cities']
-        ]);
-
-        if ($this->Trips->save($trip)) {
-            $this->Flash->success(__('Trip added'));
-            return $this->redirect(['action' => 'index']);
+    {
+        $trip = $this->Trips->newEmptyEntity();
+    
+        if ($this->request->is('post')) {
+            // Récupérer les données du formulaire
+            $data = $this->request->getData();
+    
+            // Associer l'utilisateur (user_id) et les villes (cities)
+            $trip = $this->Trips->patchEntity($trip, $data, [
+                'associated' => ['Users', 'Cities']
+            ]);
+    
+            // Sauvegarder le voyage dans la base de données
+            if ($this->Trips->save($trip)) {
+                $this->Flash->success(__('The trip has been saved.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('Unable to add the trip.'));
         }
-        $this->Flash->error(__('Impossible to add trip'));
+    
+        // Récupérer la liste des utilisateurs et des villes pour les afficher dans le formulaire
+        $users = $this->Trips->Users->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'username'
+        ])->toArray();
+    
+        $cities = $this->Trips->Cities->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'name'
+        ])->toArray();
+    
+        $this->set(compact('trip', 'users', 'cities'));
     }
-
-    $cities = $this->Trips->Cities->find('list', [
-        'keyField' => 'id',
-        'valueField' => 'name'
-    ])->toArray();
-
-    $this->set(compact('trip', 'cities'));
-}
+    
+    
 
 
     /**
@@ -73,30 +97,30 @@ class TripsController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null)
-{
-    $trip = $this->Trips->get($id, [
-        'contain' => ['Cities']
-    ]);
-
-    if ($this->request->is(['patch', 'post', 'put'])) {
-        $trip = $this->Trips->patchEntity($trip, $this->request->getData(), [
-            'associated' => ['Cities']
+    {
+        $trip = $this->Trips->get($id, [
+            'contain' => ['Cities']
         ]);
 
-        if ($this->Trips->save($trip)) {
-            $this->Flash->success(__('Trip edited'));
-            return $this->redirect(['action' => 'index']);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $trip = $this->Trips->patchEntity($trip, $this->request->getData(), [
+                'associated' => ['Cities']
+            ]);
+
+            if ($this->Trips->save($trip)) {
+                $this->Flash->success(__('Trip edited'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('Impossible to edit trip'));
         }
-        $this->Flash->error(__('Impossible to edit trip'));
+
+        $cities = $this->Trips->Cities->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'name'
+        ])->toArray();
+
+        $this->set(compact('trip', 'cities'));
     }
-
-    $cities = $this->Trips->Cities->find('list', [
-        'keyField' => 'id',
-        'valueField' => 'name'
-    ])->toArray();
-
-    $this->set(compact('trip', 'cities'));
-}
 
 
     /**

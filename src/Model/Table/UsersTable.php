@@ -52,8 +52,7 @@ class UsersTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Trips', [
-            'foreignKey' => 'trip_id',
-            'joinType' => 'LEFT',
+            'foreignKey' => 'trip_id'
         ]);
     }
 

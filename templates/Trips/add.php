@@ -1,11 +1,3 @@
-<?php
-
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Trip $trip
- * @var \Cake\Collection\CollectionInterface|string[] $cities
- */
-?>
 <div class="row">
     <aside class="column">
         <div class="side-nav">
@@ -16,18 +8,23 @@
     <div class="column column-80">
         <div class="trips form content">
             <?= $this->Form->create($trip) ?>
-            <?= $this->Form->control('name', ['label' => 'Name']) ?>
+            <?= $this->Form->control('name', ['label' => 'Trip Name']) ?>
 
+            <!-- Ajout de la liste déroulante pour les utilisateurs -->
+            <?= $this->Form->control('user_id', [
+                'options' => $users,  // Liste d'utilisateurs récupérée dans le contrôleur
+                'label' => 'Select User'
+            ]) ?>
+
+            <!-- Liste déroulante pour les villes -->
             <?= $this->Form->control('cities._ids', [
                 'type' => 'select',
                 'multiple' => 'checkbox',
                 'options' => $cities,
-                'label' => 'Associated cities'
+                'label' => 'Associated Cities'
             ]) ?>
 
-            <?= $this->Form->button(__('Add trip')) ?>
-            <?= $this->Form->end() ?>
-
+            <?= $this->Form->button(__('Add Trip')) ?>
             <?= $this->Form->end() ?>
         </div>
     </div>
