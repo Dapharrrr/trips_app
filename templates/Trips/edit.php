@@ -11,17 +11,17 @@
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
             <?= $this->Form->postLink(
-                __('Delete'),
+                __('Supprimer'),
                 ['action' => 'delete', $trip->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $trip->id), 'class' => 'side-nav-item']
+                ['confirm' => __('Êtes-vous sûr de vouloir supprimer # {0}?', $trip->id), 'class' => 'side-nav-item']
             ) ?>
-            <?= $this->Html->link(__('List Trips'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
+            <?= $this->Html->link(__('Liste des Voyages'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
         </div>
     </aside>
     <div class="column column-80">
         <div class="trips form content">
             <?= $this->Form->create($trip) ?>
-            <?= $this->Form->control('name', ['label' => 'Name']) ?>
+            <?= $this->Form->control('name', ['label' => 'Nom']) ?>
 
             <?= $this->Form->control('cities._ids', [
                 'type' => 'select',
@@ -30,7 +30,7 @@
                 'label' => 'Villes associées'
             ]) ?>
 
-            <?= $this->Form->button(__('Edit trip')) ?>
+            <?= $this->Form->button(__('Modifier le voyage')) ?>
             <?= $this->Form->end() ?>
 
         </div>

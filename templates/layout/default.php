@@ -14,7 +14,7 @@
  * @var \App\View\AppView $this
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+$cakeDescription = 'CakePHP: le framework php de développement rapide';
 ?>
 <!DOCTYPE html>
 <html>
@@ -39,16 +39,16 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>TRIPS</a>
         </div>
         <div class="top-nav-links">
-            <?= $this->Html->link('Trips', ['controller' => 'Trips', 'action' => 'index']) ?>
-            <?= $this->Html->link('Cities', ['controller' => 'Cities', 'action' => 'index']) ?>
-            <?= $this->Html->link('Users', ['controller' => 'Users', 'action' => 'index']) ?>
+            <?= $this->Html->link('Voyages', ['controller' => 'Trips', 'action' => 'index']) ?>
+            <?= $this->Html->link('Villes', ['controller' => 'Cities', 'action' => 'index']) ?>
+            <?= $this->Html->link('Utilisateurs', ['controller' => 'Users', 'action' => 'index']) ?>
             <?php if (empty($this->request->getAttribute('identity'))): ?>
-                <?= $this->Html->link('Create account', ['controller' => 'Users', 'action' => 'add']) ?>
-                <?= $this->Html->link('Login', ['controller' => 'Users', 'action' => 'login']) ?>
+                <?= $this->Html->link('Créer un compte', ['controller' => 'Users', 'action' => 'add']) ?>
+                <?= $this->Html->link('Connexion', ['controller' => 'Users', 'action' => 'login']) ?>
 
             <?php else : ?>
 
-                <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout']) ?>
+                <?= $this->Html->link('Déconnexion', ['controller' => 'Users', 'action' => 'logout']) ?>
 
             <?php endif; ?>
         </div>
